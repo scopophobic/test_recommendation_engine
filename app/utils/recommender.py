@@ -1,7 +1,7 @@
 from difflib import SequenceMatcher
   # Make sure you have this function implemented
 import json
-from app.utils.extractor import extract_constraints
+from utils.extractor import extract_constraints
 
 
 # Load your scraped assessment data (adjust the path if needed)

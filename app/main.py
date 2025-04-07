@@ -8,7 +8,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Or specify like ["http://localhost:3000"]
+    allow_origins=["*"],  # Or specify like ["http://localhost:3000"]
     allow_credentials=True,
     allow_methods=["*"],  # OR ["GET", "POST", "OPTIONS"]
     allow_headers=["*"],
@@ -17,8 +17,8 @@ class PromptInput(BaseModel):
     prompt: str
 
 class PromptRequest(BaseModel):
-    prompt: str
-    top_k: int = 5
+    prompt: str = "We need a data analyst with good numerical reasoning and Excel knowledge, mid-level experience with test durations less than 60."
+    top_k: int = 10
 
 @app.get("/")
 def read_root():

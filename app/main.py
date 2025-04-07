@@ -8,12 +8,11 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # You can restrict this later to ["http://localhost:3000"] or your Vercel domain
+    allow_origins=["*"],  # Or specify like ["http://localhost:3000"]
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["*"],  # OR ["GET", "POST", "OPTIONS"]
     allow_headers=["*"],
 )
-
 class PromptInput(BaseModel):
     prompt: str
 

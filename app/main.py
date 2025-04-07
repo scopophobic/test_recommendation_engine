@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from typing import List, Any
-from app.utils.recommender import recommend_tests
+from utils.recommender import recommend_tests
 
 app = FastAPI()
 

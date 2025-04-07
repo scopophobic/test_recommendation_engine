@@ -5,7 +5,7 @@ from utils.extractor import extract_constraints
 
 
 # Load your scraped assessment data (adjust the path if needed)
-with open("app/data/final1.json") as f:
+with open("data/final1.json") as f:
     shl_data = json.load(f)
 
 def similarity(a, b):

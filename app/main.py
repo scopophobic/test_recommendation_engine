@@ -1,10 +1,18 @@
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Any
 from utils.recommender import recommend_tests
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can restrict this later to ["http://localhost:3000"] or your Vercel domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class PromptInput(BaseModel):
     prompt: str

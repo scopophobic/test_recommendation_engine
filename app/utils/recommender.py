@@ -1,11 +1,18 @@
 from difflib import SequenceMatcher
   # Make sure you have this function implemented
 import json
+import os
 from utils.extractor import extract_constraints
 
 
 # Load your scraped assessment data (adjust the path if needed)
-with open("data/final1.json") as f:
+file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'final_data.json')
+
+# Normalize the path
+file_path = os.path.normpath(file_path)
+
+
+with open(file_path) as f:
     shl_data = json.load(f)
 
 def similarity(a, b):

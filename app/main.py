@@ -20,6 +20,17 @@ class PromptRequest(BaseModel):
     prompt: str = "We need a data analyst with good numerical reasoning and Excel knowledge, mid-level experience with test durations less than 60."
     top_k: int = 10
 
+KEY_MAPPING = {
+    "A": "Ability & Aptitude",
+    "B": "Biodata & Situational Judgement",
+    "C": "Competencies",
+    "D": "Development & 360",
+    "E": "Assessment Exercises",
+    "K": "Knowledge & Skills",
+    "P": "Personality & Behavior",
+    "S": "Simulations"
+}
+
 @app.get("/")
 def read_root():
     return {"message": "SHL Recommender API is up 🚀"}
@@ -35,16 +46,20 @@ def health_status():
 async def recommend(payload: PromptRequest):
     recommendations = recommend_tests(payload.prompt, payload.top_k)
     results = []
+    mapped_keys = []
+    for score, test in recommendations:
+        mapped_keys = [KEY_MAPPING.get(k, k) for k in test.get("keys", [])]
+
+    
     for score, test in recommendations:
         results.append({
             "name": test.get("name", "Unnamed"),
             "link": test.get("link", "#"),
             "duration": test.get("assessment_length", "N/A"),
-            "keys": test.get("keys", []),
-            "score": score,
-            "remote": test.get("is_remote", False),
-            "adaptive": test.get("is_adaptive", False),
+            "remote_support": "Yes" if test.get("remote_available") == "Yes" else "No",
+            "adaptive_support": "Yes" if test.get("adaptive_irt") == "Yes" else "No",
             "job_levels": test.get("job_levels", []),
+            "skills": mapped_keys,
             "description": test.get("description", "No description available.")
         })
     return {"recommendations": results}
@@ -58,40 +73,30 @@ async def recommend_docs():
         "message": "Send a POST request with a hiring prompt and top_k value.",
         "example_input": {
             "prompt": "I am hiring for Java developers who can also collaborate effectively with my business teams. Looking for an assessment(s) that can be completed in 40 minutes.",
-            "top_k": 2
+            "top_k": 1
         },
         "example_output": {
-            "recommendations": [
-                 {
-            "link": "https://www.shl.com/solutions/products/product-catalog/view/core-java-advanced-level-new/",
-            "name": "Core Java (Advanced Level) (New)",
-            "duration": 13,
-            "keys": [
-              "K"
-            ],
-            "remote": True,
-            "adaptive": False,
-            "job_levels": [
-              "Job levelsMid-Professional",
-              "Professional Individual Contributor"
-            ],
-            "description": "DescriptionMulti-choice test that measures the knowledge of basic Java constructs, OOP concepts, files and exception handling, and advanced Java concepts like generics, collections, threads, strings and concurrency."
-            },
-            {
-        "name": "Core Java (Entry Level) (New)",
-        "link": "https://www.shl.com/solutions/products/product-catalog/view/core-java-entry-level-new/",
-        "duration": 13,
-        "keys": [
-          "K"
-        ],
-        "remote": True,
-        "adaptive": False,
-        "job_levels": [
-        "Job levelsMid-Professional",
-        "Professional Individual Contributor"
-        ],
-      "description": "DescriptionMulti-choice test that measures the knowledge of basic Java constructs, OOP concepts, file handling, exception handling, threads, generic class and inner class."
-        }
-            ]
+              "recommendations": [
+    {
+      "test-name": "MS Excel (New)",
+      "link": "https://www.shl.com/solutions/products/product-catalog/view/ms-excel-new/",
+      "duration (mins) ": 6,
+      "remote available": "YES",
+      "adaptive support": "NO",
+      "job_levels": [
+        "Job levelsEntry-Level",
+        "Graduate",
+        "Manager",
+        "Mid-Professional",
+        "Professional Individual Contributor",
+        "Supervisor",
+        ""
+      ],
+      "skills": [
+        "Knowledge & Skills"
+      ],
+      "description": "DescriptionMulti-choice test that measures the ability to use MS Excel to maintain, organize, analyze and present numeric data."
+    }
+  ]
         }
     }

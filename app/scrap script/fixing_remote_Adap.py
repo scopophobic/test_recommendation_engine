@@ -39,8 +39,8 @@ def extract_flags_from_table(soup):
     if len(tds) < 2:
         return "No", "No"
 
-    remote_available = "Yes" if tds[0].select_one('.catalogue__circle -yes') else "No"
-    adaptive_irt = "Yes" if tds[1].select_one('.catalogue__circle -yes') else "No"
+    remote_available = "Yes" if tds[0].select_one('catalogue__circle -yes') else "No"
+    adaptive_irt = "Yes" if tds[1].select_one('catalogue__circle -yes') else "No"
 
     return remote_available, adaptive_irt
 

@@ -96,8 +96,8 @@ def scrape_shl_catalog():
             # Remote & Adaptive/IRT
             general_tags = row.find_all("td", class_="custom__table-heading__general")
             if len(general_tags) >= 2:
-                test_data["remote_available"] = "Yes" if general_tags[0].find(class_="catalogue-cricle_yes") else "No"
-                test_data["adaptive_irt"] = "Yes" if general_tags[1].find(class_="catalogue-cricle_yes") else "No"
+                test_data["remote_available"] = "Yes" if general_tags[0].find(class_="catalogue-cricle -yes") else "No"
+                test_data["adaptive_irt"] = "Yes" if general_tags[1].find(class_="catalogue-cricle -yes") else "No"
 
             # Keys
             key_container = row.find("td", class_="custom__table-heading__general product-catalogue__keys")
